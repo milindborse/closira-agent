@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bloom Aesthetics — Ivy AI Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --rose:       #f2c4c4;
+      --rose-deep:  #d4807e;
+      --rose-light: #fdf5f5;
+      --blush:      #faf0f0;
+      --sage:       #b8c9b0;
+      --sage-light: #f2f5f0;
+      --cream:      #fdfaf7;
+      --charcoal:   #2e2e2e;
+      --mid:        #6b6b6b;
+      --border:     #ede8e8;
+      --white:      #ffffff;
+      --shadow:     0 4px 24px rgba(180,110,110,0.08);
+      --shadow-sm:  0 2px 8px rgba(180,110,110,0.06);
+      --radius:     16px;
+      --radius-sm:  10px;
+    }
+
+    html, body { height: 100%; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--blush);
+      color: var(--charcoal);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    /* ── Top Bar ────────────────────────────────────── */
+    .topbar {
+      width: 100%;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--rose-deep), #c96a68);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .brand-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      color: var(--charcoal);
+    }
+
+    .brand-sub {
+      font-size: 11px;
+      color: var(--mid);
+      font-weight: 300;
+      margin-top: 1px;
+    }
+
+    .status-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #f0faf0;
+      border: 1px solid #c8e6c8;
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #3a7a3a;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #4caf50;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* ── Main Layout ────────────────────────────────── */
+    .main {
+      width: 100%;
+      max-width: 860px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 24px 16px 0;
+    }
+
+    /* ── Chat Container ─────────────────────────────── */
+    .chat-wrapper {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 140px);
+      overflow: hidden;
+    }
+
+    .chat-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--white);
+    }
+
+    .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--rose), var(--rose-deep));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .agent-info h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--charcoal);
+    }
+
+    .agent-info p {
+      font-size: 12px;
+      color: var(--mid);
+      font-weight: 300;
+    }
+
+    .header-actions {
+      margin-left: auto;
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-ghost {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 6px 14px;
+      font-size: 12px;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      color: var(--mid);
+      transition: all 0.2s;
+      font-weight: 500;
+    }
+
+    .btn-ghost:hover {
+      background: var(--blush);
+      border-color: var(--rose);
+      color: var(--rose-deep);
+    }
+
+    /* ── Messages ───────────────────────────────────── */
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      scroll-behavior: smooth;
+    }
+
+    .messages::-webkit-scrollbar { width: 4px; }
+    .messages::-webkit-scrollbar-track { background: transparent; }
+    .messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .msg {
+      display: flex;
+      gap: 10px;
+      animation: fadeUp 0.3s ease;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .msg.user { flex-direction: row-reverse; }
+
+    .msg-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    .msg.ai .msg-avatar    { background: linear-gradient(135deg, var(--rose-light), var(--rose)); }
+    .msg.user .msg-avatar  { background: linear-gradient(135deg, #e8f0e8, var(--sage)); }
+
+    .msg-bubble {
+      max-width: 72%;
+      padding: 12px 16px;
+      border-radius: 18px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .msg.ai .msg-bubble {
+      background: var(--rose-light);
+      border: 1px solid #f0dada;
+      border-bottom-left-radius: 4px;
+      color: var(--charcoal);
+    }
+
+    .msg.user .msg-bubble {
+      background: var(--charcoal);
+      border-bottom-right-radius: 4px;
+      color: var(--white);
+    }
+
+    .msg-meta {
+      font-size: 10px;
+      color: var(--mid);
+      margin-top: 4px;
+      padding: 0 4px;
+    }
+
+    .msg.user .msg-meta { text-align: right; }
+
+    /* ── Escalation Banner ──────────────────────────── */
+    .escalation-banner {
+      background: #fff8f0;
+      border: 1px solid #f5c87a;
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      font-size: 12px;
+      color: #8a6000;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 4px 0;
+      animation: fadeUp 0.3s ease;
+    }
+
+    /* ── Qualification Badge ────────────────────────── */
+    .qual-badge {
+      font-size: 11px;
+      background: var(--sage-light);
+      border: 1px solid var(--sage);
+      border-radius: 20px;
+      padding: 3px 10px;
+      color: #4a6a40;
+      display: inline-block;
+      margin-top: 4px;
+    }
+
+    /* ── Message Meta Pills (Confidence, SOP gaps) ───────────────────── */
+    .meta-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .meta-pill {
+      font-size: 11px;
+      background: var(--blush);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3px 10px;
+      color: var(--mid);
+      display: inline-block;
+    }
+
+    .meta-pill.warn {
+      background: #fff8f0;
+      border-color: #f5c87a;
+      color: #8a6000;
+    }
+
+    /* ── Typing Indicator ───────────────────────────── */
+    .typing-indicator {
+      display: flex;
+      gap: 10px;
+    }
+
+    .typing-dots {
+      background: var(--rose-light);
+      border: 1px solid #f0dada;
+      border-radius: 18px;
+      border-bottom-left-radius: 4px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .typing-dots span {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--rose-deep);
+      animation: bounce 1.2s infinite;
+    }
+
+    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0%, 60%, 100% { transform: translateY(0); }
+      30%            { transform: translateY(-5px); }
+    }
+
+    /* ── Input Bar ──────────────────────────────────── */
+    .input-bar {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+      background: var(--white);
+    }
+
+    .input-wrap {
+      flex: 1;
+      background: var(--blush);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      transition: border-color 0.2s;
+    }
+
+    .input-wrap:focus-within {
+      border-color: var(--rose-deep);
+      background: var(--white);
+    }
+
+    #msg-input {
+      flex: 1;
+      border: none;
+      background: none;
+      outline: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--charcoal);
+      padding: 12px 0;
+      resize: none;
+      max-height: 120px;
+    }
+
+    #msg-input::placeholder { color: #b8b0b0; }
+
+    .btn-send {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, var(--rose-deep), #c05a58);
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.15s, opacity 0.15s;
+      flex-shrink: 0;
+      font-size: 18px;
+    }
+
+    .btn-send:hover  { transform: scale(1.05); }
+    .btn-send:active { transform: scale(0.97); }
+    .btn-send:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+    /* ── Summary Modal ──────────────────────────────── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(40, 20, 20, 0.35);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.2s ease;
+      padding: 16px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .modal {
+      background: var(--white);
+      border-radius: 20px;
+      max-width: 560px;
+      width: 100%;
+      padding: 32px;
+      box-shadow: 0 20px 60px rgba(180,110,110,0.2);
+      animation: slideUp 0.3s ease;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--charcoal);
+      margin-bottom: 4px;
+    }
+
+    .modal-subtitle {
+      font-size: 12px;
+      color: var(--mid);
+      margin-bottom: 24px;
+    }
+
+    .summary-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .summary-card {
+      background: var(--blush);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+    }
+
+    .summary-card label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--mid);
+      font-weight: 500;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .summary-card p {
+      font-size: 14px;
+      color: var(--charcoal);
+      line-height: 1.5;
+    }
+
+    .summary-card.highlight {
+      background: linear-gradient(135deg, #fff8f0, #fef5f5);
+      border-color: #f5c8a8;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .badge {
+      font-size: 12px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+
+    .badge.positive { background: #e8f5e8; color: #3a7a3a; }
+    .badge.negative { background: #ffeaea; color: #a03030; }
+    .badge.neutral  { background: #f0f0f0; color: #555; }
+    .badge.escalated{ background: #fff3e0; color: #b06000; }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .btn-primary {
+      flex: 1;
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, var(--rose-deep), #c05a58);
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .btn-primary:hover { opacity: 0.9; }
+
+    .btn-secondary {
+      flex: 1;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      color: var(--mid);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .btn-secondary:hover { border-color: var(--rose); color: var(--rose-deep); }
+
+    /* ── Stage Indicator ────────────────────────────── */
+    .stage-bar {
+      padding: 8px 24px;
+      background: var(--blush);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .stage-step {
+      font-size: 11px;
+      color: var(--mid);
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: var(--white);
+      border: 1px solid var(--border);
+    }
+
+    .stage-step.active {
+      background: var(--rose-light);
+      border-color: var(--rose);
+      color: var(--rose-deep);
+      font-weight: 500;
+    }
+
+    /* ── Empty state ────────────────────────────────── */
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--mid);
+    }
+
+    .empty-state .icon { font-size: 40px; margin-bottom: 12px; }
+    .empty-state h4 { font-family: 'Cormorant Garamond', serif; font-size: 20px; margin-bottom: 6px; color: var(--charcoal); }
+    .empty-state p  { font-size: 13px; line-height: 1.6; }
+
+    /* ── Chip suggestions ───────────────────────────── */
+    .suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 0 24px 12px;
+    }
+
+    .chip {
+      font-size: 12px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--rose);
+      background: var(--rose-light);
+      color: var(--rose-deep);
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.2s;
+    }
+
+    .chip:hover {
+      background: var(--rose-deep);
+      color: white;
+    }
+
+    /* ── Session badge ──────────────────────────────── */
+    .session-id {
+      font-size: 10px;
+      color: #c0b0b0;
+      padding: 4px 0 0 2px;
+    }
+
+    @media (max-width: 600px) {
+      .topbar { padding: 0 16px; }
+      .main { padding: 12px 8px 0; }
+      .messages { padding: 16px; }
+      .input-bar { padding: 12px; }
+      .modal { padding: 20px; }
+      .msg-bubble { max-width: 88%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="topbar">
+  <div class="brand">
+    <div class="brand-logo">🌸</div>
+    <div>
+      <div class="brand-name">Bloom Aesthetics</div>
+      <div class="brand-sub">AI-Powered Support · Closira Platform</div>
+    </div>
+  </div>
+  <div class="status-pill">
+    <div class="status-dot"></div>
+    Ivy is online
+  </div>
+</div>
+
+<!-- Main -->
+<div class="main">
+  <div class="chat-wrapper">
+
+    <!-- Chat Header -->
+    <div class="chat-header">
+      <div class="avatar">🌸</div>
+      <div class="agent-info">
+        <h3>Ivy — AI Receptionist</h3>
+        <p>Bloom Aesthetics Clinic · Powered by LLaMA 3.3 via Groq</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn-ghost" onclick="endSession()">End &amp; Summarise</button>
+        <button class="btn-ghost" onclick="newSession()">New Chat</button>
+      </div>
+    </div>
+
+    <!-- Stage Bar -->
+    <div class="stage-bar" id="stage-bar">
+      <span class="stage-step active" id="s-faq">1 · FAQ</span>
+      <span class="stage-step" id="s-qual">2 · Qualification</span>
+      <span class="stage-step" id="s-esc">3 · Escalation</span>
+      <span class="stage-step" id="s-sum">4 · Summary</span>
+    </div>
+
+    <!-- Messages -->
+    <div class="messages" id="messages">
+      <div class="empty-state">
+        <div class="icon">🌸</div>
+        <h4>Welcome to Bloom Aesthetics</h4>
+        <p>Ivy is ready to assist. Ask about our Botox, Fillers, pricing, or booking a consultation.</p>
+      </div>
+    </div>
+
+    <!-- Suggestion Chips -->
+    <div class="suggestions" id="chips">
+      <div class="chip" onclick="sendChip(this)">What are your Botox prices?</div>
+      <div class="chip" onclick="sendChip(this)">Is a consultation free?</div>
+      <div class="chip" onclick="sendChip(this)">What are your opening hours?</div>
+      <div class="chip" onclick="sendChip(this)">How do I book an appointment?</div>
+    </div>
+
+    <!-- Input Bar -->
+    <div class="input-bar">
+      <div class="input-wrap">
+        <textarea
+          id="msg-input"
+          rows="1"
+          placeholder="Type your message…"
+          onkeydown="handleKey(event)"
+          oninput="autoResize(this)"
+        ></textarea>
+      </div>
+      <button class="btn-send" id="send-btn" onclick="sendMessage()" title="Send">
+        ➤
+      </button>
+    </div>
+
+  </div>
+  <div class="session-id" id="session-label"></div>
+</div>
+
+<!-- Summary Modal -->
+<div class="modal-overlay" id="modal" style="display:none;" onclick="closeModal(event)">
+  <div class="modal" id="modal-content" onclick="event.stopPropagation()">
+    <h2>Session Summary</h2>
+    <p class="modal-subtitle" id="modal-meta">End of conversation · Bloom Aesthetics</p>
+    <div class="summary-grid" id="summary-grid"></div>
+    <div class="modal-actions">
+      <button class="btn-primary" onclick="newSession()">Start New Chat</button>
+      <button class="btn-secondary" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let sessionId = null;
+  let isLoading = false;
+  let firstMessage = true;
+
+  // ── Init ─────────────────────────────────────────────────────────────────
+  async function initSession() {
+    const resp = await fetch('/api/start', { method: 'POST' });
+    const data = await resp.json();
+    sessionId = data.session_id;
+    document.getElementById('session-label').textContent = `Session: ${sessionId}`;
+    clearMessages();
+    appendMessage('ai', data.message, { confidence: data.confidence, sop_gap: data.sop_gap });
+    firstMessage = false;
+  }
+
+  window.addEventListener('DOMContentLoaded', initSession);
+
+  // ── Send ──────────────────────────────────────────────────────────────────
+  async function sendMessage() {
+    const input = document.getElementById('msg-input');
+    const text = input.value.trim();
+    if (!text || isLoading) return;
+
+    input.value = '';
+    autoResize(input);
+    setLoading(true);
+
+    // Hide chips after first use
+    document.getElementById('chips').style.display = 'none';
+
+    appendMessage('user', text);
+    showTyping();
+
+    try {
+      const resp = await fetch('/api/message', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text, session_id: sessionId })
+      });
+      const data = await resp.json();
+      removeTyping();
+
+      appendMessage('ai', data.message, {
+        escalated: data.escalated,
+        escalation_reason: data.escalation_reason,
+        show_qualification: data.show_qualification,
+        confidence: data.confidence,
+        sop_gap: data.sop_gap
+      });
+
+      updateStage(data.stage, data.escalated);
+    } catch (err) {
+      removeTyping();
+      appendMessage('ai', '⚠️ Something went wrong. Please check your connection or API key.');
+    }
+
+    setLoading(false);
+  }
+
+  function sendChip(el) {
+    document.getElementById('msg-input').value = el.textContent;
+    sendMessage();
+  }
+
+  function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  }
+
+  // ── Messages ──────────────────────────────────────────────────────────────
+  function appendMessage(role, text, meta = {}) {
+    const container = document.getElementById('messages');
+
+    // Clear empty state
+    const empty = container.querySelector('.empty-state');
+    if (empty) empty.remove();
+
+    const wrap = document.createElement('div');
+    wrap.className = `msg ${role}`;
+
+    const emoji = role === 'ai' ? '🌸' : '👤';
+    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    let extras = '';
+    if (meta.escalated) {
+      extras += `
+        <div style="margin-top:8px">
+          <div class="escalation-banner">
+            ⚠️ &nbsp; Escalated to human agent · Reason: <strong>${formatReason(meta.escalation_reason)}</strong>
+          </div>
+        </div>`;
+    }
+    if (meta.show_qualification) {
+      extras += `<div><span class="qual-badge">📋 Lead Qualification</span></div>`;
+    }
+
+    if (role === 'ai' && typeof meta.confidence === 'number') {
+      const pct = Math.round(meta.confidence * 100);
+      extras += `
+        <div class="meta-pills">
+          <span class="meta-pill">Confidence: ${pct}%</span>
+          ${meta.sop_gap ? `<span class="meta-pill warn">SOP gap logged</span>` : ''}
+        </div>`;
+    } else if (meta.sop_gap) {
+      extras += `
+        <div class="meta-pills">
+          <span class="meta-pill warn">SOP gap logged</span>
+        </div>`;
+    }
+
+    // Render **bold** markdown
+    const formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+    wrap.innerHTML = `
+      <div class="msg-avatar">${emoji}</div>
+      <div>
+        <div class="msg-bubble">${formatted}</div>
+        ${extras}
+        <div class="msg-meta">${time}</div>
+      </div>
+    `;
+
+    container.appendChild(wrap);
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function formatReason(reason) {
+    const map = {
+      'COMPLAINT': 'Complaint', 'MEDICAL_QUESTION': 'Medical question',
+      'PRICING_NEGOTIATION': 'Pricing negotiation', 'OUT_OF_SCOPE': 'Out of scope',
+      'ANGRY_SENTIMENT': 'Angry sentiment', 'EXPLICIT_HUMAN_REQUEST': 'Human requested',
+      'REPEATED_UNKNOWN': 'Repeated unknowns'
+    };
+    return map[reason] || reason;
+  }
+
+  function clearMessages() {
+    document.getElementById('messages').innerHTML = `
+      <div class="empty-state">
+        <div class="icon">🌸</div>
+        <h4>Welcome to Bloom Aesthetics</h4>
+        <p>Ivy is ready to assist. Ask about our Botox, Fillers, pricing, or booking a consultation.</p>
+      </div>`;
+  }
+
+  // ── Typing ────────────────────────────────────────────────────────────────
+  function showTyping() {
+    const container = document.getElementById('messages');
+    const wrap = document.createElement('div');
+    wrap.id = 'typing';
+    wrap.className = 'msg ai typing-indicator';
+    wrap.innerHTML = `
+      <div class="msg-avatar">🌸</div>
+      <div class="typing-dots"><span></span><span></span><span></span></div>`;
+    container.appendChild(wrap);
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function removeTyping() {
+    const el = document.getElementById('typing');
+    if (el) el.remove();
+  }
+
+  // ── Stage ─────────────────────────────────────────────────────────────────
+  function updateStage(stage, escalated) {
+    const steps = { faq: 's-faq', qualification: 's-qual', escalated: 's-esc', summary: 's-sum' };
+    Object.values(steps).forEach(id => {
+      document.getElementById(id).classList.remove('active');
+    });
+    const active = escalated ? 's-esc' : (steps[stage] || 's-faq');
+    document.getElementById(active).classList.add('active');
+  }
+
+  // ── Summary ───────────────────────────────────────────────────────────────
+  async function endSession() {
+    if (isLoading) return;
+    setLoading(true);
+    try {
+      const resp = await fetch('/api/summary', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ session_id: sessionId })
+      });
+      const data = await resp.json();
+      showSummaryModal(data.summary);
+      updateStage('summary', false);
+    } catch (e) {
+      alert('Could not generate summary. Check console for errors.');
+    }
+    setLoading(false);
+  }
+
+  function showSummaryModal(summary) {
+    const grid = document.getElementById('summary-grid');
+    const sentimentClass = { positive: 'positive', negative: 'negative', neutral: 'neutral' }[summary.sentiment] || 'neutral';
+
+    grid.innerHTML = `
+      <div class="summary-card highlight">
+        <label>Customer Intent</label>
+        <p>${summary.customer_intent || 'N/A'}</p>
+      </div>
+      <div class="summary-card">
+        <label>Sentiment</label>
+        <div class="badge-row">
+          <span class="badge ${sentimentClass}">${capitalize(summary.sentiment || 'neutral')}</span>
+          ${summary.escalated ? `<span class="badge escalated">⚠️ Escalated · ${formatReason(summary.escalation_reason)}</span>` : '<span class="badge positive">✓ No escalation</span>'}
+        </div>
+      </div>
+      <div class="summary-card">
+        <label>Services Discussed</label>
+        <p>${(summary.services_mentioned || []).join(', ') || 'None recorded'}</p>
+      </div>
+      <div class="summary-card">
+        <label>Qualification Data</label>
+        <p>
+          ${summary.qualification_data?.treatment_interest ? `Treatment interest: ${summary.qualification_data.treatment_interest}<br>` : ''}
+          ${summary.qualification_data?.previous_treatments ? `Prior experience: ${summary.qualification_data.previous_treatments}<br>` : ''}
+          ${summary.qualification_data?.booking_for ? `Booking for: ${summary.qualification_data.booking_for}` : 'Not fully captured'}
+        </p>
+      </div>
+      ${summary.sop_gaps?.length ? `
+      <div class="summary-card">
+        <label>SOP Gaps Identified</label>
+        <p>${summary.sop_gaps.join('; ')}</p>
+      </div>` : ''}
+      <div class="summary-card highlight">
+        <label>Recommended Next Action</label>
+        <p>${summary.recommended_next_action || 'Follow up with customer'}</p>
+      </div>
+      <div class="summary-card">
+        <label>Session Length</label>
+        <p>${summary.session_duration_turns} customer messages · Session ID: ${sessionId}</p>
+      </div>
+    `;
+
+    document.getElementById('modal').style.display = 'flex';
+  }
+
+  function closeModal(e) {
+    if (!e || e.target === document.getElementById('modal')) {
+      document.getElementById('modal').style.display = 'none';
+    }
+  }
+
+  // ── Utilities ─────────────────────────────────────────────────────────────
+  function newSession() {
+    document.getElementById('modal').style.display = 'none';
+    document.getElementById('chips').style.display = 'flex';
+    updateStage('faq', false);
+    initSession();
+  }
+
+  function setLoading(val) {
+    isLoading = val;
+    document.getElementById('send-btn').disabled = val;
+  }
+
+  function autoResize(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+  }
+
+  function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+</script>
+</body>
+</html>

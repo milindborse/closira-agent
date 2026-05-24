@@ -1,0 +1,87 @@
+{
+  "business": {
+    "name": "Bloom Aesthetics Clinic",
+    "tagline": "Your trusted aesthetics partner",
+    "contact": {
+      "whatsapp": "+44 7700 900000",
+      "website": "www.bloomaesthetics.co.uk",
+      "email": "hello@bloomaesthetics.co.uk"
+    }
+  },
+  "hours": {
+    "monday": "9:00 AM - 7:00 PM",
+    "tuesday": "9:00 AM - 7:00 PM",
+    "wednesday": "9:00 AM - 7:00 PM",
+    "thursday": "9:00 AM - 7:00 PM",
+    "friday": "9:00 AM - 7:00 PM",
+    "saturday": "9:00 AM - 7:00 PM",
+    "sunday": "Closed"
+  },
+  "services": [
+    {
+      "name": "Botox",
+      "price_from": 200,
+      "currency": "GBP",
+      "description": "Anti-wrinkle injections for forehead lines, crow's feet, and frown lines.",
+      "duration": "30-45 minutes",
+      "results_duration": "3-6 months",
+      "aftercare": "Avoid lying down for 4 hours post-treatment, no strenuous exercise for 24 hours."
+    },
+    {
+      "name": "Fillers",
+      "price_from": 250,
+      "currency": "GBP",
+      "description": "Dermal fillers for lips, cheeks, and nasolabial folds.",
+      "duration": "45-60 minutes",
+      "results_duration": "6-18 months",
+      "aftercare": "Avoid touching the treated area for 6 hours, no extreme heat for 24 hours."
+    },
+    {
+      "name": "Consultation",
+      "price_from": 0,
+      "currency": "GBP",
+      "description": "Free initial consultation to discuss your aesthetic goals and suitability for treatments.",
+      "duration": "30 minutes",
+      "results_duration": "N/A",
+      "aftercare": "N/A"
+    }
+  ],
+  "booking": {
+    "channels": ["WhatsApp", "Website"],
+    "cancellation_policy": "24-hour notice required for cancellations. Late cancellations may incur a fee.",
+    "deposit_required": false,
+    "same_day_booking": "Subject to availability"
+  },
+  "escalation_rules": {
+    "escalate_if": [
+      "Customer makes a complaint",
+      "Medical question or health concern raised",
+      "Pricing negotiation requested",
+      "More than 2 questions cannot be answered from SOP",
+      "Customer is angry or frustrated",
+      "Customer explicitly requests a human agent"
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Is Botox safe?",
+      "a": "Safety is best discussed with one of our qualified practitioners during a free consultation. Please book a consultation and we can address all your concerns in detail."
+    },
+    {
+      "q": "How long does Botox last?",
+      "a": "Botox results typically last between 3 to 6 months, after which a top-up may be recommended."
+    },
+    {
+      "q": "Do you offer payment plans?",
+      "a": "Payment plan enquiries should be discussed directly with our team. Please request to speak with a human agent and they will assist you."
+    },
+    {
+      "q": "What is your cancellation policy?",
+      "a": "We require at least 24 hours notice for cancellations. Late cancellations may incur a fee."
+    },
+    {
+      "q": "Are consultations free?",
+      "a": "Yes! Initial consultations at Bloom Aesthetics are completely free of charge."
+    }
+  ]
+}

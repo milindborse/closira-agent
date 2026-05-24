@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f2c4c4"/>
+      <stop offset="1" stop-color="#d4807e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="700" fill="#faf0f0"/>
+  <rect x="70" y="60" width="1060" height="580" rx="18" fill="#ffffff" stroke="#ede8e8"/>
+  <rect x="70" y="60" width="1060" height="64" rx="18" fill="#ffffff"/>
+  <circle cx="110" cy="92" r="18" fill="url(#g)"/>
+  <text x="150" y="98" font-family="Arial, sans-serif" font-size="18" fill="#2e2e2e">Bloom Aesthetics · Ivy AI Assistant</text>
+  <rect x="980" y="76" width="130" height="32" rx="16" fill="#f2f5f0" stroke="#b8c9b0"/>
+  <circle cx="998" cy="92" r="5" fill="#4caf50"/>
+  <text x="1012" y="97" font-family="Arial, sans-serif" font-size="12" fill="#3a7a3a">Online</text>
+
+  <rect x="100" y="150" width="1000" height="420" rx="14" fill="#ffffff"/>
+
+  <!-- AI bubble -->
+  <rect x="120" y="180" width="640" height="84" rx="16" fill="#fdf5f5" stroke="#f0dada"/>
+  <text x="140" y="215" font-family="Arial, sans-serif" font-size="14" fill="#2e2e2e">Hi! I’m Ivy — how can I help you today?</text>
+  <rect x="140" y="236" width="140" height="24" rx="12" fill="#faf0f0" stroke="#ede8e8"/>
+  <text x="152" y="253" font-family="Arial, sans-serif" font-size="12" fill="#6b6b6b">Confidence: 92%</text>
+
+  <!-- User bubble -->
+  <rect x="460" y="300" width="620" height="70" rx="16" fill="#2e2e2e"/>
+  <text x="480" y="338" font-family="Arial, sans-serif" font-size="14" fill="#ffffff">What are your Botox prices?</text>
+
+  <!-- AI bubble with SOP gap -->
+  <rect x="120" y="410" width="700" height="108" rx="16" fill="#fdf5f5" stroke="#f0dada"/>
+  <text x="140" y="445" font-family="Arial, sans-serif" font-size="14" fill="#2e2e2e">Botox starts from £200. Would you like to book a consultation?</text>
+  <rect x="140" y="468" width="140" height="24" rx="12" fill="#faf0f0" stroke="#ede8e8"/>
+  <text x="152" y="485" font-family="Arial, sans-serif" font-size="12" fill="#6b6b6b">Confidence: 84%</text>
+  <rect x="290" y="468" width="120" height="24" rx="12" fill="#fff8f0" stroke="#f5c87a"/>
+  <text x="302" y="485" font-family="Arial, sans-serif" font-size="12" fill="#8a6000">SOP gap logged</text>
+
+  <!-- Input bar -->
+  <rect x="100" y="590" width="1000" height="40" rx="14" fill="#faf0f0" stroke="#ede8e8"/>
+  <rect x="1040" y="592" width="56" height="36" rx="12" fill="url(#g)"/>
+  <text x="1060" y="616" font-family="Arial, sans-serif" font-size="16" fill="#ffffff">➤</text>
+</svg>

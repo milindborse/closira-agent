@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f2c4c4"/>
+      <stop offset="1" stop-color="#d4807e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="700" fill="#faf0f0"/>
+  <rect x="0" y="0" width="1200" height="700" fill="#000000" opacity="0.20"/>
+
+  <rect x="230" y="110" width="740" height="480" rx="20" fill="#ffffff"/>
+  <text x="270" y="170" font-family="Arial, sans-serif" font-size="26" fill="#2e2e2e">Session Summary</text>
+  <text x="270" y="198" font-family="Arial, sans-serif" font-size="13" fill="#6b6b6b">End of conversation · Bloom Aesthetics</text>
+
+  <rect x="270" y="230" width="660" height="80" rx="14" fill="#faf0f0" stroke="#ede8e8"/>
+  <text x="292" y="262" font-family="Arial, sans-serif" font-size="11" fill="#6b6b6b" letter-spacing="2">CUSTOMER INTENT</text>
+  <text x="292" y="288" font-family="Arial, sans-serif" font-size="15" fill="#2e2e2e">Asked about Botox pricing and booking.</text>
+
+  <rect x="270" y="330" width="320" height="90" rx="14" fill="#faf0f0" stroke="#ede8e8"/>
+  <text x="292" y="362" font-family="Arial, sans-serif" font-size="11" fill="#6b6b6b" letter-spacing="2">SENTIMENT</text>
+  <rect x="292" y="378" width="88" height="26" rx="13" fill="#e8f5e8"/>
+  <text x="312" y="396" font-family="Arial, sans-serif" font-size="13" fill="#3a7a3a">Positive</text>
+
+  <rect x="610" y="330" width="320" height="90" rx="14" fill="#faf0f0" stroke="#ede8e8"/>
+  <text x="632" y="362" font-family="Arial, sans-serif" font-size="11" fill="#6b6b6b" letter-spacing="2">SOP GAPS</text>
+  <text x="632" y="392" font-family="Arial, sans-serif" font-size="14" fill="#2e2e2e">None</text>
+
+  <rect x="270" y="440" width="660" height="90" rx="14" fill="#fff8f0" stroke="#f5c8a8"/>
+  <text x="292" y="472" font-family="Arial, sans-serif" font-size="11" fill="#6b6b6b" letter-spacing="2">NEXT ACTION</text>
+  <text x="292" y="500" font-family="Arial, sans-serif" font-size="15" fill="#2e2e2e">Offer a consultation slot and share booking link.</text>
+
+  <rect x="270" y="550" width="320" height="40" rx="12" fill="url(#g)"/>
+  <text x="340" y="576" font-family="Arial, sans-serif" font-size="14" fill="#ffffff">Start New Chat</text>
+  <rect x="610" y="550" width="320" height="40" rx="12" fill="#ffffff" stroke="#ede8e8"/>
+  <text x="745" y="576" font-family="Arial, sans-serif" font-size="14" fill="#6b6b6b">Close</text>
+</svg>
