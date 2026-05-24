@@ -17,6 +17,16 @@ This project implements a 4-stage AI customer support workflow for **Bloom Aesth
 | 4 | **Conversation Summary** | Generates a structured CRM-ready summary at session end |
 
 ---
+#Screenshots
+<img width="1102" height="785" alt="clo2" src="https://github.com/user-attachments/assets/7f44e5ca-9be8-4d4d-8bbc-4e0b52294e46" />
+<img width="1046" height="792" alt="clo3" src="https://github.com/user-attachments/assets/f547bd0d-8003-40a7-961a-ef2267273227" />
+<img width="1902" height="842" alt="clo1" src="https://github.com/user-attachments/assets/4ec6f2ae-850f-4fea-b228-7b9b413f1b51" />
+<img width="1091" height="818" alt="clo4_f" src="https://github.com/user-attachments/assets/a50e059c-65bb-4794-90f1-ecd748765d60" />
+<img width="1082" height="736" alt="clo3 1" src="https://github.com/user-attachments/assets/8248fcbe-a053-4092-845d-e565b3f5cc76" />
+
+
+
+
 
 ## Project Structure
 
